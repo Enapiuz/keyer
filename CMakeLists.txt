@@ -14,5 +14,5 @@ else()
     message(STATUS "The compiler ${CMAKE_C_COMPILER} has no C11/C1x support, which is required.")
 endif()
 
-set(SOURCE_FILES src/main.c)
+set(SOURCE_FILES src/main.c src/lib/utils.c src/lib/utils.h)
 add_executable(keyer ${SOURCE_FILES})
