@@ -3,8 +3,7 @@
 uint32_t jenkins_hash(char *key, size_t len)
 {
     uint32_t hash, i;
-    for(hash = i = 0; i < len; ++i)
-    {
+    for (hash = i = 0; i < len; ++i) {
         hash += key[i];
         hash += (hash << 10);
         hash ^= (hash >> 6);
