@@ -6,18 +6,18 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
 include(CheckCCompilerFlag)
 check_c_compiler_flag("-std=c11" COMPILER_SUPPORTS_C11)
 check_c_compiler_flag("-std=c1x" COMPILER_SUPPORTS_C1X)
-if(COMPILER_SUPPORTS_C11)
+if (COMPILER_SUPPORTS_C11)
     set(CMAKE_C_FLAGS "-std=c11 ${CMAKE_C_FLAGS}")
-elseif(COMPILER_SUPPORTS_C1X)
+elseif (COMPILER_SUPPORTS_C1X)
     set(CMAKE_C_FLAGS "-std=c1x ${CMAKE_C_FLAGS}")
-else()
+else ()
     message(STATUS "The compiler ${CMAKE_C_COMPILER} has no C11/C1x support, which is required.")
-endif()
+endif ()
 
 # Begin find glib
 
 if (GLIB_PKG_FOUND)
-    find_path(GLIB_INCLUDE_DIR  NAMES glib.h PATH_SUFFIXES glib-2.0
+    find_path(GLIB_INCLUDE_DIR NAMES glib.h PATH_SUFFIXES glib-2.0
             PATHS
             ${GLIB_PKG_INCLUDE_DIRS}
             /usr/include/glib-2.0
@@ -36,7 +36,7 @@ if (GLIB_PKG_FOUND)
 else (GLIB_PKG_FOUND)
     # Find Glib even if pkg-config is not working (eg. cross compiling to Windows)
     find_library(GLIB_LIBRARIES NAMES glib-2.0)
-    string (REGEX REPLACE "/[^/]*$" "" GLIB_LIBRARIES_DIR ${GLIB_LIBRARIES})
+    string(REGEX REPLACE "/[^/]*$" "" GLIB_LIBRARIES_DIR ${GLIB_LIBRARIES})
 
     find_path(GLIB_INCLUDE_DIR NAMES glib.h PATH_SUFFIXES glib-2.0)
     find_path(GLIB_CONFIG_INCLUDE_DIR NAMES glibconfig.h PATHS ${GLIB_LIBRARIES_DIR} PATH_SUFFIXES glib-2.0/include)
@@ -47,13 +47,13 @@ if (GLIB_INCLUDE_DIR AND GLIB_CONFIG_INCLUDE_DIR AND GLIB_LIBRARIES)
     set(GLIB_INCLUDE_DIRS ${GLIB_INCLUDE_DIR} ${GLIB_CONFIG_INCLUDE_DIR})
 endif (GLIB_INCLUDE_DIR AND GLIB_CONFIG_INCLUDE_DIR AND GLIB_LIBRARIES)
 
-if(GLIB_INCLUDE_DIRS AND GLIB_LIBRARIES)
+if (GLIB_INCLUDE_DIRS AND GLIB_LIBRARIES)
     set(GLIB_FOUND TRUE CACHE INTERNAL "glib-2.0 found")
     message(STATUS "Found glib-2.0: ${GLIB_INCLUDE_DIR}, ${GLIB_LIBRARIES}")
-else(GLIB_INCLUDE_DIRS AND GLIB_LIBRARIES)
+else (GLIB_INCLUDE_DIRS AND GLIB_LIBRARIES)
     set(GLIB_FOUND FALSE CACHE INTERNAL "glib-2.0 found")
     message(STATUS "glib-2.0 not found.")
-endif(GLIB_INCLUDE_DIRS AND GLIB_LIBRARIES)
+endif (GLIB_INCLUDE_DIRS AND GLIB_LIBRARIES)
 
 mark_as_advanced(GLIB_INCLUDE_DIR GLIB_CONFIG_INCLUDE_DIR GLIB_INCLUDE_DIRS GLIB_LIBRARIES)
 
